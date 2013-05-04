@@ -128,6 +128,21 @@ public class Main {
                     break;
             }
         }
+
+	ready = false;
+	System.out.println("What will be the reproduction probabiliy? ");
+	float reproductionProbablity = in.nextFloat();
+	if (reproductionProbablity < 0.0f)
+	{
+		System.out.println("Clamping to [0,1]");
+		reproductionProbablity = 0.0f;
+	}
+	else if (reproductionProbablity > 1.0f)
+	{
+		System.out.println("Clamping to [0,1]");
+		reproductionProbablity = 1.0f;
+	}
+
         
         ready = false;
         System.out.println("Choose a Mutation Agent:");
@@ -175,7 +190,7 @@ public class Main {
         float percentDone = 0.0f;
         float percent = 0.0f;
         
-        // commence!
+        // commence genetic algorithm!
         for (int i = 0; i < maxIterations; i++)
         {
             ClusterChromosome best = ga.getBest();
@@ -186,7 +201,7 @@ public class Main {
             quantizationErrors[i] = best.getQuatizationError();
             
             // perform GA
-            ga.nextGeneration(mutationProbability);
+            ga.nextGeneration(reproductionProbablity, mutationProbability);
             
             mutationProbability -= 0.99f/maxIterations;
             

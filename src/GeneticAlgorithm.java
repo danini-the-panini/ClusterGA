@@ -53,7 +53,7 @@ public class GeneticAlgorithm<CHR extends Chromosome>
         return best;
     }
     
-    public void nextGeneration(float mutationProbability)
+    public void nextGeneration(float reproductionProbablity, float mutationProbability)
     {
         
         CHR[] newPop = (CHR[])(new Chromosome[population.length]);
@@ -67,10 +67,14 @@ public class GeneticAlgorithm<CHR extends Chromosome>
         while (newPopSize < newPop.length)
         {   
             CHR[] parents = selectParents(repAgent.getNumRequiredParents());
-            CHR[] children = repAgent.reproduce(parents);
+
+	    // reproduce based on reproduction prbability
+	    boolean willReproduce = Math.random() < reproductionProbablity;
+            CHR[] children = willReproduce ? repAgent.reproduce(parents) : parents;
             
             for (int i = 0; i < children.length && i+newPopSize < newPop.length; i++)
             {
+		// mutate based on mutation probability
                 if (Math.random() < mutationProbability)
                 {
                     mutAgent.mutate(children[i]);
