@@ -8,7 +8,7 @@ public class ArrayGraph extends Canvas
     private Color colour;
     private float[] array;
     
-    private float max = Float.NEGATIVE_INFINITY, min = 0, origin;
+    private float max = Float.NEGATIVE_INFINITY, min = Float.POSITIVE_INFINITY, origin;
     private float rangeX, rangeY, stepX, stepY;
     private int padding, stepValue;
 
@@ -44,6 +44,10 @@ public class ArrayGraph extends Canvas
         
         // draw origin
         g.drawLine(0, Y(0), getWidth(), Y(0));
+        
+        
+        g.drawString(""+min, 0, Y(min));
+        g.drawString(""+max, 0, Y(max));
         
         g.setColor(colour);
         

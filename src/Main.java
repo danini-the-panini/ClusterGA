@@ -89,7 +89,8 @@ public class Main {
                     selector = new ChromosomeSelector.Roulette<ClusterChromosome>();
                     break;
                 case 2:
-                    System.out.print("What will be the tournament size? ");
+                    System.out.println("What will be the tournament size? ");
+                    System.out.print("> ");
                     selector = new ChromosomeSelector.Tournament<ClusterChromosome>(in.nextInt());
                     break;
                 default:
@@ -99,10 +100,12 @@ public class Main {
             }
         }
         
-        System.out.print("Population Size? ");
+        System.out.println("Population Size? ");
+        System.out.print("> ");
         int popSize = in.nextInt();
         
-        System.out.print("How many Iterations? ");
+        System.out.println("How many Iterations? ");
+        System.out.print("> ");
         int maxIterations = in.nextInt();
         
         ready = false;
@@ -132,6 +135,7 @@ public class Main {
 
 	ready = false;
 	System.out.println("What will be the reproduction probabiliy? ");
+        System.out.print("> ");
 	float reproductionProbablity = in.nextFloat();
 	if (reproductionProbablity < 0.0f)
 	{
