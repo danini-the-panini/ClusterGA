@@ -34,8 +34,6 @@ public class DataSet
                 for (int i = 0; i < pattern.length; i++)
                 {
                     pattern[i] = Float.parseFloat(tokens[i]);
-                    data.max[i] = Math.max(data.max[i], pattern[i]);
-                    data.min[i] = Math.min(data.min[i], pattern[i]);
                 }
                 
                 data.insert(pattern);
@@ -67,6 +65,11 @@ public class DataSet
         {
             throw new IllegalArgumentException("Feature Count Mismatch.");
         }
+        for (int i = 0; i < numFeatures; i++)
+        {
+            max[i] = Math.max(max[i], pattern[i]);
+            min[i] = Math.min(min[i], pattern[i]);
+        }
         
         data.add(pattern);
     }
@@ -91,11 +94,11 @@ public class DataSet
         return classification;
     }
     
-    public Canvas getVisualRepresentation(float[][] centroids)
+    public Canvas getVisualRepresentation(float[][] centroids, int padding)
     {
         if (numFeatures != 2) return null;
         
-        return new VisualRepresentation(centroids);
+        return new VisualRepresentation(centroids, padding);
     }
     
     private class VisualRepresentation extends Canvas
@@ -104,10 +107,12 @@ public class DataSet
         float[][] centroids;
         
         float rangeX, rangeY, stepX, stepY;
+        int padding;
         
-        VisualRepresentation(float[][] centroids)
+        VisualRepresentation(float[][] centroids, int padding)
         {
             this.centroids = centroids;
+            this.padding = padding;
             
             classification = getClassification(centroids);
             
@@ -122,9 +127,8 @@ public class DataSet
             
             g.fillRect(0, 0, getWidth(), getHeight());
             
-            
-            stepX = rangeX/(float)getWidth();
-            stepY = rangeY/(float)getHeight();
+            stepX = rangeX/(float)(getWidth()-2*padding);
+            stepY = rangeY/(float)(getHeight()-2*padding);
             
             float[] p,c;
             
@@ -144,6 +148,8 @@ public class DataSet
             {
                 p = data.get(i);
                 
+                //System.out.println("Drawing: " + X(p[0]) + ", " + Y(p[1]));
+                
                 g.fillRect(X(p[0])-2, Y(p[1])-2, 4, 4);
             }
             
@@ -159,12 +165,12 @@ public class DataSet
         
         int X(float x)
         {
-            return (int)((x-min[0])/stepX);
+            return (int)((x-min[0])/stepX) + padding;
         }
         
         int Y(float y)
         {
-            return getHeight() - (int)((y-min[1])/stepY);
+            return getHeight() - (int)((y-min[1])/stepY) - padding;
         }
         
     }

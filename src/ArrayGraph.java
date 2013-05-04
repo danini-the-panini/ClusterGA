@@ -10,10 +10,14 @@ public class ArrayGraph extends Canvas
     
     private float max = Float.NEGATIVE_INFINITY, min = 0, origin;
     private float rangeX, rangeY, stepX, stepY;
+    private int padding, stepValue;
 
-    public ArrayGraph(Color colour, float[] array) {
+    public ArrayGraph(Color colour, float[] array, int stepValue, int padding) {
         this.colour = colour;
         this.array = array;
+        
+        this.stepValue = stepValue;
+        this.padding = padding;
         
         for (int i = 0; i < array.length; i++)
         {
@@ -33,8 +37,8 @@ public class ArrayGraph extends Canvas
         g.fillRect(0, 0, getWidth(), getHeight());
         
         
-        stepX = rangeX/(float)getWidth();
-        stepY = rangeY/(float)getHeight();
+        stepX = rangeX/(float)(getWidth()-2*padding);
+        stepY = rangeY/(float)(getHeight()-2*padding);
         
         g.setColor(Color.BLACK);
         
@@ -53,12 +57,12 @@ public class ArrayGraph extends Canvas
         
     int X(float x)
     {
-        return (int)((x)/stepX);
+        return (int)((x)/stepX) + padding;
     }
 
     int Y(float y)
     {
-        return getHeight() - (int)((y-min)/stepY);
+        return getHeight() - (int)((y-min)/stepY) - padding;
     }
     
 }

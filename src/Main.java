@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
 
 public class Main {
 
@@ -226,19 +227,16 @@ public class Main {
         System.out.println("Intra-Cluster Distance: " + intraConnections[maxIterations]);
         System.out.println("Quantization Errors: " + quantizationErrors[maxIterations]);
         
-        Canvas canvas = dataSet.getVisualRepresentation(best.getCentroids());
+        Canvas canvas = dataSet.getVisualRepresentation(best.getCentroids(), 20);
+        
+        JFrame frame = new JFrame("DataSet: " + filename);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JTabbedPane view = new JTabbedPane();
         
         if (canvas != null)
         {
-            JFrame view = new JFrame("DataSet: " + filename);
-
-            view.add(canvas);
-            
-            view.setSize(800,600);
-            
-            view.setVisible(true);
-            
-            view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            view.addTab("Clustering", canvas);
         }
         else   
         {
@@ -255,22 +253,22 @@ public class Main {
         }
         
         Canvas[] canvases = new Canvas[]{
-            new ArrayGraph(Color.blue, interConnections),
-            new ArrayGraph(Color.red, intraConnections),
-            new ArrayGraph(Color.orange, quantizationErrors)
+            new ArrayGraph(Color.blue, interConnections, 1, 20),
+            new ArrayGraph(Color.red, intraConnections, 1, 20),
+            new ArrayGraph(Color.orange, quantizationErrors, 1, 20)
+        };
+        String[] canvasNames = new String[]{
+            "Inter Connections", "Intra Connections", "Quantization Errors"
         };
         
-        for (Canvas canv :canvases)
+        for (int i = 0; i < canvases.length; i++)
         {
-            JFrame view = new JFrame("Some Canvas: " + filename);
-
-            view.add(canv);
-            
-            view.setSize(800,600);
-            
-            view.setVisible(true);
+            view.addTab(canvasNames[i], canvases[i]);
         }
         
+        frame.add(view);
         
+        frame.pack();
+        frame.setVisible(true);
     }
 }
