@@ -39,12 +39,8 @@ public class ArrayGraph extends Canvas
         
         stepX = rangeX/(float)(getWidth()-2*padding);
         stepY = rangeY/(float)(getHeight()-2*padding);
-        
+
         g.setColor(Color.BLACK);
-        
-        // draw origin
-        g.drawLine(0, Y(0), getWidth(), Y(0));
-        
         
         g.drawString(""+min, 0, Y(min));
         g.drawString(""+max, 0, Y(max));

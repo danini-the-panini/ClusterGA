@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import java.awt.Dimension;
 
 public class Main {
 
@@ -201,9 +202,9 @@ public class Main {
             ClusterChromosome best = ga.getBest();
             
             // collect stats
-            interConnections[i] = best.getInterClusterDistance();
+	    interConnections[i] = best.getInterClusterDistance();
             intraConnections[i] = best.getIntraClusterDistance();
-            quantizationErrors[i] = best.getQuatizationError();
+	    quantizationErrors[i] = best.getQuatizationError();
             
             // perform GA
             ga.nextGeneration(reproductionProbablity, mutationProbability);
@@ -262,7 +263,7 @@ public class Main {
             new ArrayGraph(Color.orange, quantizationErrors, 1, 20)
         };
         String[] canvasNames = new String[]{
-            "Inter Connections", "Intra Connections", "Quantization Errors"
+            "Inter Connection", "Intra Connection", "Quantization Error"
         };
         
         for (int i = 0; i < canvases.length; i++)
@@ -272,7 +273,7 @@ public class Main {
         
         frame.add(view);
         
-        frame.pack();
+	frame.setSize(new Dimension(800,600));
         frame.setVisible(true);
     }
 }
